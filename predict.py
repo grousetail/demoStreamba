@@ -2,13 +2,13 @@ from numpy import array
 import pickle
 import warnings
 import praw
-
+from praw.models import MoreComments
 from nltk.stem import PorterStemmer
 from nltk.corpus import stopwords
 from string import punctuation 
 import re
 
-#warnings.filterwarnings("ignore")
+warnings.filterwarnings("ignore")
 reddit = praw.Reddit(client_id='bTewNJ5si7SyVw', \
                      client_secret='IyiNqH4dSbJvzvfvYqsxUewUNH4', \
                      user_agent='streamba_demo', \
@@ -29,11 +29,28 @@ def cleanText(text):
 cv = pickle.load(open(".\\Modelling\\cv.pkl", 'rb'))
 model=pickle.load(open(".\\Modelling\\model.pkl",'rb'))
 
-submission = reddit.submission(url='https://www.reddit.com/r/CasualUK/comments/fs85h6/isolation_day_12_two_women_mid_30s_no_children/')
+a='https://www.reddit.com/r/AskReddit/comments/ftk07k/whats_a_really_awkward_situation_that_everyone/?utm_source=share&utm_medium=web2x'
 
-l=[]
-submission.comments.replace_more(limit=200)
-for comment in submission.comments.list():
-    l.append(comment.body)
-    
-print(cleanText(l[0]))
+
+def postAnalysis(link):
+    print("Performing post analysis for")
+    print(link)
+    l=[]
+    submission = reddit.submission(url=link)
+    for comment in submission.comments.list():
+        if isinstance(comment, MoreComments):
+            continue
+        elif len(l)>1000:
+            continue
+        l.append(cleanText(comment.body))
+    f=model.predict_proba(cv.transform(l))
+    print(f)
+    print((f==1).sum())
+    print((f==0).sum())
+
+meirl = reddit.subreddit('rarepuppers')
+subs=meirl.hot(limit=10)
+for sub in subs:
+    postAnalysis("https://www.reddit.com/"+sub.permalink)
+
+
