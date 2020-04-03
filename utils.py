@@ -4,6 +4,12 @@ from nltk.corpus import stopwords
 from string import punctuation 
 import re
 
+# Description: Simplfys text data by stemming and cleaning weird sections. 
+# 
+# Variables
+#   text (string) - Any string data to be cleansed
+
+
 def cleanText(text):
     text=text.lower()
     text = text.split()
