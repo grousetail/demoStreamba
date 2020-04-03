@@ -5,6 +5,9 @@ import praw
 from praw.models import MoreComments
 import utils
 import Secrets 
+import pyodbc 
+from datetime import datetime
+import sys
 
 
 warnings.filterwarnings("ignore")
@@ -17,12 +20,26 @@ reddit = praw.Reddit(client_id=Secrets.cid, \
 
 cv = pickle.load(open(".\\Modelling\\cv.pkl", 'rb'))
 model=pickle.load(open(".\\Modelling\\model.pkl",'rb'))
+con = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};'
+                     'SERVER='+Secrets.server+';UID='
+                     +Secrets.username+
+                     ';PWD='+
+                     Secrets.redditPass+';Initial Catalog=StreamDemo')
+cur = con.cursor()
 
+
+def insertTab(link,pos,neg,result):
+    cur.execute('INSERT INTO StreamDemo.dbo.redditTable'
+                '(link,positive_comments,negative_comments,overall_majority)'
+                'VALUES (\''+link+"\',"+str(pos)+","+str(neg)+",\'"+result+"\');")
+    con.commit()
+    
 
 def postAnalysis(link):
     print("Performing post analysis for")
     print(link)
     print("\n")
+    print(datetime.now())
     l=[]
     submission = reddit.submission(url=link)
     for comment in submission.comments.list():
@@ -31,17 +48,32 @@ def postAnalysis(link):
         elif len(l)>1000:
             continue
         l.append(utils.cleanText(comment.body))
-    f=model.predict(cv.transform(l))
-    a=(f==1).sum()
-    b=(f==0).sum()
-    if a>b:
+    
+    if (len(l))<1:
+        insertTab(link,0,0,"None")
+        print("No comments found")
+        return
+    
+    preds=model.predict(cv.transform(l))
+    pos=(preds==1).sum()
+    neg=(preds==0).sum()
+    if pos>neg:
+        insertTab(link,0,0,"Positive")
         print("Result:Majority Positive \n")
-    else:
+    elif pos<neg:
+        insertTab(link,0,0,"Negative")
+        
         print("Result:Majority Negative \n")
-
-meirl = reddit.subreddit('meirl')
-subs=meirl.hot(limit=10)
-for sub in subs:
-    postAnalysis("https://www.reddit.com/"+sub.permalink)
-
-
+    else:
+        insertTab(link,pos,neg,"None")
+ 
+def main():
+    meirl = reddit.subreddit('AskReddit')
+    subs=meirl.hot(limit=15)
+    for sub in subs:
+        postAnalysis("https://www.reddit.com/"+sub.permalink)
+        
+if __name__ == "__main__":
+    main()
+        
+        
