@@ -37,4 +37,9 @@ def trainModel():
     pickle.dump(cv,open(".\\Modelling\\cv.pkl", 'wb'))
     pickle.dump(model,open(".\\Modelling\\model.pkl", 'wb'))
 
-trainModel()
+def main():
+    trainModel()
+        
+if __name__ == "__main__":
+    main()
+        
