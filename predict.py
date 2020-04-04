@@ -58,8 +58,6 @@ def insertTab(link,pos,neg,result):
 def postAnalysis(link):
     print("Performing post analysis for")
     print(link)
-    print("\n")
-    print(datetime.now())
     l = []
     submission = reddit.submission(url=link)
     for comment in submission.comments.list():
@@ -82,6 +80,10 @@ def postAnalysis(link):
     pos = (preds==1).sum()
     neg = (preds==0).sum()
     
+    print("Positive comments: "+str(pos))
+    
+    print("Negative Comments: "+str(neg))
+    
     if pos>neg:
         insertTab(link,0,0,"Positive")
         print("Result:Majority Positive \n")
@@ -94,12 +96,13 @@ def postAnalysis(link):
         insertTab(link,pos,neg,"None")
  
 def main():
-    meirl = reddit.subreddit('AskReddit')
-    subs=meirl.hot(limit=15)
-    for sub in subs:
-        postAnalysis("https://www.reddit.com/"+sub.permalink)
-        
+    arg=(sys.argv)[1]
+    links = open(arg, "r")
+    for link in links:
+        postAnalysis(link)
+    
 if __name__ == "__main__":
     main()
         
+
         
