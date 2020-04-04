@@ -21,6 +21,6 @@ To be run with a path to a text file containing the reddit posts that need to be
 **predict.py exmp.txt**
 
 ### Python environment
-The code was written in python 3.6. The neccesary packages to run this code can be found at req.txt and can be loaded using:
+The code was written in python 3.6. The neccesary packages to run this code can be found at requirements.txt and can be loaded using:
 
-**pip install -r req.txt**
+**pip install -r requirements.txt**
