@@ -55,10 +55,12 @@ def insert_tab(link, pos, neg, result):
 # Variables
 #   link (string) - Link to Reddit post.
 
-def post_analysis(link):
+def post_analysis(link, validation_mode=False):
     print("Performing post analysis for")
     print(link)
     l = []
+    unmodified_comments=[]
+    
     submission = reddit.submission(url=link)
     for comment in submission.comments.list():
         if isinstance(comment, MoreComments):
@@ -69,6 +71,9 @@ def post_analysis(link):
         elif len(l) > 1000:
             continue
         l.append(utils.clean_text(comment.body))
+        
+        if len(unmodified_comments)<10:
+            unmodified_comments.append(comment.body)
     
     # If the thread contains no comments 
     if (len(l)) < 1:
@@ -80,6 +85,16 @@ def post_analysis(link):
     pos = (preds==1).sum()
     neg = (preds==0).sum()
     
+    if validation_mode:
+        for i in range(min(10,len(l))):
+            print("************************")
+            print(unmodified_comments[i])
+            if preds[i]==0:
+                print("\n\n With prediction: Negative" )
+            if preds[i]==1:
+                print("\n\n With prediction: Positive" )
+        print("\n")
+            
     print("Positive comments: " + str(pos))
     
     print("Negative Comments: " + str(neg))
@@ -97,9 +112,12 @@ def post_analysis(link):
  
 def main():
     arg = sys.argv[1]
-    links = open(arg, "r")
-    for link in links:
-        post_analysis(link)
+    if arg.endswith(".txt"):
+        links = open(arg, "r")
+        for link in links:
+            post_analysis(link)
+    else:
+        post_analysis(arg,validation_mode=True)
     
 if __name__ == "__main__":
     main()

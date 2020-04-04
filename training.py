@@ -44,7 +44,7 @@ def train_model():
     # Data must be converted to matrix format to be readable by our model. 
     # Keeping our features low prevents the model from becoming overcomplicated
     cv = CountVectorizer(max_df=0.85, stop_words=stopwords, max_features=10000)
-    word_count_vector = cv.fit_transform(tweets) 
+    word_count_vector = cv.fit_transform(tweets)
     
     print("Fitting model")
     model = LogisticRegression(C=1.) # Logistic regression provided a slightly 
