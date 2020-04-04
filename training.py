@@ -9,21 +9,21 @@ warnings.filterwarnings("ignore")
 import utils
 
 
-stopwords = set(utils.stopwords.words('english') + list(utils.punctuation) + ['AT_USER','URL'])
+stopwords = set(utils.stopwords.words('english') + list(utils.punctuation) + ['AT_USER' , 'URL'])
 
 # Training data not included in git as its too large
 dataset_path = ".\\TrainingData\\training.1600000.processed.noemoticon.csv"
 
 
-# Description: Loads training data into df, removing irrelevant coloumns and 
+# Description: Loads training data into df, removing irrelevant columns and 
 #              converting the target variables into something more workable.
 # 
 # Variables
 #   filepath (string) - Filepath to training data
 
-def saveDataset(filepath):
-    colNames = ["target", "ids", "date", "flag", "user", "text"]
-    df = read_csv(dataset_path, encoding="ISO-8859-1", names=colNames)
+def save_dataset(filepath):
+    col_names = ["target", "ids", "date", "flag", "user", "text"]
+    df = read_csv(dataset_path, encoding="ISO-8859-1", names=col_names)
     df = df.drop(["ids","flag","date","user"], axis = 1)
     df.target = df.target.replace(4,1)
     return df
@@ -32,18 +32,18 @@ def saveDataset(filepath):
 #              saves as pickle files to be used by our predictors.
 
 
-def trainModel():
-    print("Running trainModel:")
+def train_model():
+    print("Running train_model:")
     print("Loading data")
-    df = saveDataset(dataset_path)                 
-    df["text"] = df["text"].apply(utils.cleanText)
+    df = save_dataset(dataset_path)                 
+    df["text"] = df["text"].apply(utils.clean_text)
     tweets = df['text'].tolist()
     
     print("Vectorising")
     
     # Data must be converted to matrix format to be readable by our model. 
     # Keeping our features low prevents the model from becoming overcomplicated
-    cv = CountVectorizer(max_df=0.85,stop_words=stopwords,max_features=10000)
+    cv = CountVectorizer(max_df=0.85, stop_words=stopwords, max_features=10000)
     word_count_vector = cv.fit_transform(tweets) 
     
     print("Fitting model")
@@ -60,7 +60,7 @@ def trainModel():
     pickle.dump(model,open(".\\Modelling\\model.pkl", 'wb'))
 
 def main():
-    trainModel()
+    train_model()
         
 if __name__ == "__main__":
     main()
