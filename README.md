@@ -20,8 +20,18 @@ To be run with a path to a text file containing the reddit posts that need to be
 
 `predict.py example.txt`
 
+To validate that the model is working correctly the code can also be run in validation by providing a single link. This will print out the first 10 comments and their classifications
+
+`predict.py  https://www.reddit.com/r/aww/comments/fuehlm/part_2_second_slipper_from_lulu/`
+
 ### Python environment
 The code was written in python 3.6. The neccesary packages to run this code can be found at requirements.txt and can be loaded using:
 
 `pip install -r requirements.txt`
  
+## Shortcomings
+For data that is not particulary expressive or very short, it is basically a coin toss for prediction. For example:
+
+"This is the follow up I needed"
+
+would be classified as negative.
