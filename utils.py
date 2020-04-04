@@ -4,7 +4,8 @@ from nltk.corpus import stopwords
 from string import punctuation 
 import re
 
-# Description: Simplifies text data by stemming and cleaning weird sections. 
+# Description: Simplifies text data by stemming and removing 
+#              users and urls, as well as unnecessary white space. 
 # 
 # Variables
 #   text (string) - Any string data to be cleansed
