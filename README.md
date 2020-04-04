@@ -8,3 +8,19 @@ The training data for the machine learning model was based on https://www.kaggle
 
 ## Running the code
 The python scripts are intended to be run from the command line. 
+
+### training.py
+Requires the training data to be available. It is not include in the git repo due to size but it can be found at. https://www.kaggle.com/kazanova/sentiment140
+this data should be run in the TrainingData folder
+
+### predict.py
+This requires their the Secrets.py included in the same location. This will be provided upon request.
+ 
+To be run with a path to a text file containing the reddit posts that need to be searched. An example set of posts is provided in exmp.txt the syntax is then.
+
+predict.py exmp.txt
+
+### Python env
+The code was written in python 3.6. The neccesary packages to run this code can be found at trainingData/req.txt and can be loaded using:
+
+pip install -r req.txt
