@@ -87,12 +87,11 @@ def post_analysis(link, validation_mode=False):
     
     if validation_mode:
         for i in range(min(10,len(l))):
-            print("************************")
             print(unmodified_comments[i])
             if preds[i]==0:
-                print("\n\n With prediction: Negative" )
+                print("With prediction: Negative \n\n" )
             if preds[i]==1:
-                print("\n\n With prediction: Positive" )
+                print("With prediction: Positive \n\n" )
         print("\n")
             
     print("Positive comments: " + str(pos))
