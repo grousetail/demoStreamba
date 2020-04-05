@@ -16,7 +16,7 @@ dataset_path = ".\\TrainingData\\training.1600000.processed.noemoticon.csv"
 
 
 # Description: Loads training data into df, removing irrelevant columns and 
-#              converting the target variables into something more workable.
+#              converting the target variables with a label of 4 to 1.
 # 
 # Variables
 #   filepath (string) - Filepath to training data
@@ -29,7 +29,7 @@ def save_dataset(filepath):
     return df
 
 # Description: Takes in our training data and models using a Naive Bayes model.
-#              saves as pickle files to be used by our predictors.
+#              Saves as pickle files to be used by our predictors.
 
 
 def train_model():
