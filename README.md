@@ -33,5 +33,7 @@ The code was written in python 3.6. The neccesary packages to run this code can 
 For data that is not particulary expressive or very short, it is basically a coin toss for prediction. For example:
 
 "This is the follow up I needed"
+"Ya know, if you had a jewel on a staff and a large 3D map on the ground, you might be able to find the Ark of the Covenant."
+"I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/politics) if you have any questions or concerns."
 
 would be classified as negative.
