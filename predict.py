@@ -86,7 +86,7 @@ def post_analysis(link, validation_mode=False):
     neg = (preds==0).sum()
     
     if validation_mode:
-        for i in range(min(10,len(l))):
+        for i in range(min(10, len(l))):
             print(unmodified_comments[i])
             if preds[i]==0:
                 print("With prediction: Negative \n\n" )
@@ -100,26 +100,17 @@ def post_analysis(link, validation_mode=False):
     
     if pos > neg:
         insert_tab(link, pos, neg, "Positive")
-        print("Result:Majority Positive \n")
-    
+        print("Result: Majority Positive \n")
+        result="Positive"
     elif pos < neg:
         insert_tab(link, pos, neg, "Negative")
-        print("Result:Majority Negative \n")
-    
+        print("Result: Majority Negative \n")
+        result="Negative"
     else:
         insert_tab(link,pos,neg,"None")
- 
-def main():
-    arg = sys.argv[1]
-    if arg.endswith(".txt"):
-        links = open(arg, "r")
-        for link in links:
-            post_analysis(link)
-    else:
-        post_analysis(arg,validation_mode=True)
-    
-if __name__ == "__main__":
-    main()
+        result="No overall sentiment"
         
+    return result
+
 
         
