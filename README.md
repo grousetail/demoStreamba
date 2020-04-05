@@ -16,7 +16,7 @@ this data should be run in the TrainingData folder.
 ### server.py
 This requires the Secrets.py included in the same location. This will be provided upon request.
 
-This code is used to run a flask server on the localhost:5000. If you are running this for the first time you will need to run 
+This code is used to run a flask server on `localhost:5000`. If you are running this for the first time you will need to run 
 
 `set FLASK_APP=server.py` - All code was run on windows.
 
