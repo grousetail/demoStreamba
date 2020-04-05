@@ -13,22 +13,34 @@ The python scripts are intended to be run from the command line.
 Requires the training data to be available. It is not include in the git repo due to size but it can be found at. https://www.kaggle.com/kazanova/sentiment140
 this data should be run in the TrainingData folder
 
-### predict.py
+### server.py
 This requires the Secrets.py included in the same location. This will be provided upon request.
- 
-To be run with a path to a text file containing the reddit posts that need to be searched. An example set of posts is provided in examples.txt the syntax is then.
 
-`predict.py examples.txt`
+This code is used to run a flask server on the localhost:5000. If you are running this for the first time you will need to run 
 
-To validate that the model is working correctly the code can also be run in validation by providing a single link. This will print out the first 10 comments and their classifications
+`set FLASK_APP=server.py` - All code was run on windows
 
-`predict.py  https://www.reddit.com/r/aww/comments/fuehlm/part_2_second_slipper_from_lulu/`
+To run the flask server the syntax is:
+
+`flask run`
+
+This will listen for POST requests, along with data like {'url': posturl} and use the model to predict whether the overall sentiment is positve,negative or neutral.
+
+On the server side it will also record how many positive and negative comments there were and log this in an SQL database
+
+### req.py
+This python contains an example POST request to be sent to the server. To run this, with the flask server running, the syntax is:
+
+`python req.py`
 
 ### Python environment
 The code was written in python 3.6. The neccesary packages to run this code can be found at requirements.txt and can be loaded using:
 
 `pip install -r requirements.txt`
  
+### SQL Database
+The SQL database is hosted on AWS and the main table that we will be inserting into is `redditTable`
+
 ## Shortcomings
 For data that is not particulary expressive or very short, it is basically a coin toss for prediction. For example:
 
@@ -38,4 +50,4 @@ For data that is not particulary expressive or very short, it is basically a coi
 
 "I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/politics) if you have any questions or concerns."
 
-Would be classified as negative.
+Would all be classified as negative.
