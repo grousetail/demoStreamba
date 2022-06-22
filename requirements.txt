@@ -8,7 +8,7 @@ idna==2.9
 jedi==0.16.0
 joblib==0.14.1
 nltk==3.4.5
-numpy==1.18.2
+numpy==1.22.0
 pandas==1.0.3
 parso==0.6.2
 pickleshare==0.7.5
