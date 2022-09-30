@@ -6,7 +6,7 @@ colorama==0.4.3
 decorator==4.4.2
 idna==2.9
 jedi==0.16.0
-joblib==0.14.1
+joblib==1.2.0
 nltk==3.4.5
 numpy==1.18.2
 pandas==1.0.3
